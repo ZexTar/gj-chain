@@ -27,8 +27,14 @@ class Block {
 
 		return new this(timestamp, prevHash, hash, data); 
 	}
+
 	static hash(timestamp, prevHash, data) {
    		return SHA256(`${timestamp}${prevHash}${data}`).toString();
+  	}
+
+  	static blockHash(block) {
+  		const {timestamp, prevHash, data} = block;
+  		return Block.hash(timestamp, prevHash, data);
   	}
 }
 
