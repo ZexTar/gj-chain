@@ -1,3 +1,4 @@
-const DIFFICULTY = 3;
+const DIFFICULTY = 4;
+const BLOCK_TIME = 60000;
 
-module.exports = {DIFFICULTY};
+module.exports = {DIFFICULTY, BLOCK_TIME};
