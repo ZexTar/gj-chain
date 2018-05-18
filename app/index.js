@@ -10,7 +10,6 @@ const app = express();
 const bc = new Blockchain();
 const p2pServer = new P2pServer(bc);
 
-
 app.use(bodyParser.json());
 
 app.get('/blocks', (req, res) => {
