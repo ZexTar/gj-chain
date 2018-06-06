@@ -9,10 +9,14 @@ class Wallet {
 	}
 
 	toAscii() {
-		
+
 		return `Wallet - 
-	publicKey:${this.publicKey.substring(0, 20)}
-	balance  :${this.balance}`
+		publicKey:${this.publicKey.substring(0, 20)}
+		balance  :${this.balance}`
+	}
+
+	sign(dataHash) {
+		return this.keyPair.sign(dataHash);
 	}
 }
 
