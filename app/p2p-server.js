@@ -1,4 +1,5 @@
 const Websocket = require('ws');
+
 const P2P_PORT = process.env.P2P_PORT || 5001;
 const peers = process.env.PEERS ? process.env.PEERS.split(',') : [];
 
@@ -11,8 +12,10 @@ class P2pServer {
   listen() {
     const server = new Websocket.Server({ port: P2P_PORT });
     server.on('connection', socket => this.connectSocket(socket));
-    console.log(`Listening on p2p connections: ${P2P_PORT}`);
+
     this.connectToPeers();
+
+    console.log(`Listening for peer-to-peer connections on: ${P2P_PORT}`);
   }
 
   connectToPeers() {
@@ -29,15 +32,14 @@ class P2pServer {
 
     this.messageHandler(socket);
 
-    socket.send(JSON.stringify(this.blockchain.chain));
+    this.sendChain(socket);
   }
 
   messageHandler(socket) {
     socket.on('message', message => {
       const data = JSON.parse(message);
-      
-      this.blockchain.replaceChain(data);
 
+      this.blockchain.replaceChain(data);
     });
   }
 

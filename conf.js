@@ -1,5 +1,0 @@
-const DIFFICULTY = 4;
-const BLOCK_TIME = 60000;
-const INITIAL_BALANCE = 500;
-
-module.exports = { DIFFICULTY, BLOCK_TIME, INITIAL_BALANCE };

@@ -1,1 +1,1 @@
-# gj-chain
+js-chain
