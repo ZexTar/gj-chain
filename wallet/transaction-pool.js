@@ -1,42 +1,43 @@
 const Transaction = require('../wallet/transaction');
 
 class TransactionPool {
-	constructor() {
-		this.transactions = [];
-	}
+  constructor() {
+    this.transactions = [];
+  }
 
-	updateOrAddTransaction(transaction) {
-		let transactionWithId = this.transactions.find(t => t.id === transaction.id);
-		if (transactionWithId) {
-			this.transactions[this.transactions.indexOf(transactionWithId)] = transaction;
-		} else {
-			this.transactions.push(transaction);
-		}
-	}
+  updateOrAddTransaction(transaction) {
+    let transactionWithId = this.transactions.find(t => t.id === transaction.id);
 
-	existingTransaction(address) {	
-		return this.transactions.find(transaction => transaction.input.address === address);
-	}
+    if (transactionWithId) {
+      this.transactions[this.transactions.indexOf(transactionWithId)] = transaction;
+    } else {
+      this.transactions.push(transaction);
+    }
+  }
 
-	validTransactions() {
-		return this.transactions.filter(transaction => {
-			const outputTotal = transaction.outputs.reduce((total, output) => {
-				return total + output.amount;
-			}, 0);
+  existingTransaction(address) {
+    return this.transactions.find(t => t.input.address === address);
+  }
 
-			if (transaction.input.amount !== outputTotal) {
-				console.log(`Invalid transaction from ${transaction.input.address}.`);
-				return;
-			}
+  validTransactions() {
+    return this.transactions.filter(transaction => {
+      const outputTotal = transaction.outputs.reduce((total, output) => {
+        return total + output.amount;
+      }, 0);
 
-			if (!Transaction.verifyTransaction(transaction)) {
-				console.log(`Invalid signature from ${transaction.input.address}.`)
-				return;
-			};
+      if (transaction.input.amount !== outputTotal) {
+        console.log(`Invalid transaction from ${transaction.input.address}.`);
+        return;
+      }
 
-			return transaction;
-		});
-	}
+      if (!Transaction.verifyTransaction(transaction)) {
+        console.log(`Invalid signature from ${transaction.input.address}.`);
+        return;
+      }
+
+      return transaction;
+    });
+  }
 }
 
 module.exports = TransactionPool;
